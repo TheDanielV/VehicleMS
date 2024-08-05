@@ -9,8 +9,10 @@ router = APIRouter()
 
 @router.post("/", response_model=dict)
 def create_new_vehicle(vehicle: VehicleCreate, db: Session = Depends(get_db)):
-    vehicle = create_vehicle(db, vehicle)
-    return vehicle
+    result = create_vehicle(db, vehicle)
+    if result is None:
+        raise HTTPException(status_code=404, detail="El vehiculo ya existe")
+    return result
 
 
 @router.get("/{vehicle_owner}", response_model=VehicleResponse)
@@ -21,7 +23,7 @@ def read_vehicle(vehicle_owner: str, db: Session = Depends(get_db)):
     return db_vehicle
 
 
-@router.delete("/vehicle/{vehicle_id}", response_model=dict)
+@router.delete("/{vehicle_id}", response_model=dict)
 def delete_vehicle_route(vehicle_id: int, db: Session = Depends(get_db)):
     vehicle_response = delete_vehicle_by_id(db, vehicle_id)
     if vehicle_response:
