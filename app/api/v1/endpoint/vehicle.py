@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from app.models.schema.vehicle import VehicleCreate, VehicleResponse
-from app.crud.vehicle import create_vehicle, get_vehicle_by_owner
+from app.crud.vehicle import *
 from app.db.session import get_db
 
 router = APIRouter()
@@ -18,3 +18,12 @@ def read_vehicle(vehicle_owner: str, db: Session = Depends(get_db)):
     if db_vehicle is None:
         raise HTTPException(status_code=404, detail="Vehicle not found")
     return db_vehicle
+
+
+@router.delete("/vehicle/{vehicle_id}", response_model=dict)
+def delete_vehicle_route(vehicle_id: int, db: Session = Depends(get_db)):
+    vehicle_response = delete_vehicle_by_id(db, vehicle_id)
+    if vehicle_response:
+        return {"success": True, "message": "Vehiculo Borrado"}
+    else:
+        return {"success": False, "message": "Vehiculo no eliminado"}
