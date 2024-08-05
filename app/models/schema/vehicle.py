@@ -9,6 +9,8 @@ class VehicleBase(BaseModel):
     modelo: str
     placa: str
     usuario_id: str
+    anio: str
+    color: str
 
 
 class VehicleCreate(VehicleBase):

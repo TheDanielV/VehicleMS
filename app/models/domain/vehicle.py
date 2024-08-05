@@ -11,4 +11,6 @@ class Vehicle(Base):
     marca = Column(String(255), index=True)
     modelo = Column(String(255), index=True)
     placa = Column(String(255), unique=True,index=True)
+    anio = Column(String(255), index=True)
+    color = Column(String(255), index=True)
     usuario_id = Column(String(255), index=True)
