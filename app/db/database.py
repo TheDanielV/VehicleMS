@@ -2,7 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-DATABASE_URL = "mysql+pymysql://root:SecretPassword@https://vehiclesql.internal.orangecliff-243aedf8.australiaeast.azurecontainerapps.io/vehicle"
+DATABASE_URL = "mysql+pymysql://root:SecretPassword@vehiclesql.orangecliff-243aedf8.australiaeast.azurecontainerapps.io/vehicle"
 
 # Crear el motor de la base de datos
 engine = create_engine(DATABASE_URL, echo=True)

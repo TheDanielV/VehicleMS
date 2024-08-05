@@ -10,7 +10,9 @@ def create_vehicle(db: Session, vehicle: VehicleCreate):
         marca=vehicle.marca,
         modelo=vehicle.modelo,
         placa=vehicle.placa,
-        usuario_id=vehicle.usuario_id
+        usuario_id=vehicle.usuario_id,
+        anio=vehicle.anio,
+        color=vehicle.color
     )
     db.add(db_vehicle)
     db.commit()
