@@ -7,9 +7,10 @@ from app.db.session import get_db
 router = APIRouter()
 
 
-@router.post("/", response_model=VehicleResponse)
+@router.post("/", response_model=dict)
 def create_new_vehicle(vehicle: VehicleCreate, db: Session = Depends(get_db)):
-    return create_vehicle(db, vehicle)
+    vehicle = create_vehicle(db, vehicle)
+    return vehicle
 
 
 @router.get("/{vehicle_owner}", response_model=VehicleResponse)

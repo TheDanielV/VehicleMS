@@ -1,5 +1,6 @@
 # MecanicaMs/app/crud/vehicle.py
 from MySQLdb import IntegrityError
+from fastapi import HTTPException
 from sqlalchemy.orm import Session
 from app.models.domain.vehicle import Vehicle
 from app.models.schema.vehicle import VehicleCreate
@@ -14,10 +15,14 @@ def create_vehicle(db: Session, vehicle: VehicleCreate):
         anio=vehicle.anio,
         color=vehicle.color
     )
-    db.add(db_vehicle)
-    db.commit()
-    db.refresh(db_vehicle)
-    return db_vehicle
+    try:
+        db.add(db_vehicle)
+        db.commit()
+        db.refresh(db_vehicle)
+        return {"status_code":200,"detail": "Vehiculo creado"}
+    except IntegrityError as ie:
+        raise HTTPException(status_code=404, detail="El vehiculo ya existe o esta incompleto")
+
 
 
 def get_vehicle_by_owner(db: Session, usuario_id: str):
