@@ -26,7 +26,7 @@ def create_vehicle(db: Session, vehicle: VehicleCreate):
 
 
 def get_vehicle_by_owner(db: Session, usuario_id: str):
-    return db.query(Vehicle).filter(Vehicle.usuario_id == usuario_id).first()
+    return db.query(Vehicle).filter(Vehicle.usuario_id == usuario_id).all()
 
 
 def delete_vehicle_by_id(db: Session, vehicle_id: int):

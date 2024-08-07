@@ -1,3 +1,5 @@
+from typing import List
+
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from app.models.schema.vehicle import VehicleCreate, VehicleResponse
@@ -15,12 +17,12 @@ def create_new_vehicle(vehicle: VehicleCreate, db: Session = Depends(get_db)):
     return result
 
 
-@router.get("/{vehicle_owner}", response_model=VehicleResponse)
-def read_vehicle(vehicle_owner: str, db: Session = Depends(get_db)):
-    db_vehicle = get_vehicle_by_owner(db, vehicle_owner)
-    if db_vehicle is None:
-        raise HTTPException(status_code=404, detail="Vehicle not found")
-    return db_vehicle
+@router.get("/{vehicle_owner}", response_model=List[VehicleResponse])
+def read_vehicles(vehicle_owner: str, db: Session = Depends(get_db)):
+    db_vehicles = get_vehicle_by_owner(db, vehicle_owner)
+    if not db_vehicles:
+        raise HTTPException(status_code=404, detail="No existen vehiculos")
+    return db_vehicles
 
 
 @router.delete("/{vehicle_id}", response_model=dict)
